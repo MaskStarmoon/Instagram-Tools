@@ -10,7 +10,7 @@ const rl = readline.createInterface({
 const prompt = (query) => new Promise(resolve => rl.question(query, resolve));
 
 const INSTAGRAM_URL = 'https://www.instagram.com/reel/DJjR_wBymPj'; // change this url to url reel/post
-const MAX_LIKES = 10; // Kurangi jumlah likes
+const MAX_LIKES = 10; // max likes
 const CUSTOM_USER_AGENT = 'Instagram 272.0.0.20.103 Android'; // User-Agent Instagram Android
 
 function sleep(ms) {
