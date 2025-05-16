@@ -1,0 +1,15 @@
+{
+  "name": "instagram-auto-like",
+  "version": "1.0.0",
+  "description": "Auto like comments on Instagram reels safely using instagram-private-api",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "MaskStarmoon",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^^1.7.7",
+    "instagram-private-api": "^1.43.1"
+  }
+}
