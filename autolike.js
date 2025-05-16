@@ -1,6 +1,7 @@
-const { IgApiClient } = require('instagram-private-api');
+const { IgApiClient, IgCheckpointError, IgLoginTwoFactorRequiredError } = require('instagram-private-api');
 const axios = require('axios');
 const readline = require('readline');
+const proxyChain = require('proxy-chain');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -10,7 +11,7 @@ const rl = readline.createInterface({
 const prompt = (query) => new Promise(resolve => rl.question(query, resolve));
 
 const INSTAGRAM_URL = 'https://www.instagram.com/reel/DJjR_wBymPj'; // change this url to your url post
-const MAX_LIKES = 50;
+const MAX_LIKES = 30;
 const BASE_IP = '180.249.200.81';
 const CUSTOM_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36';
 const PROXY_LIST = [
@@ -134,7 +135,7 @@ async function likeAllUnlikedComments(ig, mediaId) {
 }
 
 (async () => {
-  console.log('📲 Auto Like Komentar Instagram Reel (limit 500, delay 5-10 detik tiap like)');
+  console.log('📲 Auto Like Komentar Instagram Reel (limit 30, delay 30-60 detik tiap like)');
   console.log('🌐 Custom User-Agent dan IP random dari base 180.249.200.81');
 
   const username = await prompt('👤 Masukkan username IG: ');
