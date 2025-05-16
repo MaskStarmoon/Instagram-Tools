@@ -100,7 +100,7 @@ async function likeAllUnlikedComments(ig, mediaId) {
 
     if (feed.isMoreAvailable()) {
       console.log('⬇️ Mengambil komentar berikutnya (simulasi scroll)...');
-      await sleep(4000);
+      await sleep(8000);
     } else {
       break;
     }
