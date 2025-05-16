@@ -83,7 +83,7 @@ async function likeAllUnlikedComments(ig, mediaId) {
           likedCount++;
           console.log(`❤️ [${likedCount}] Liked: "${comment.text}" by ${comment.user.username}`);
 
-          const delayMs = randomDelay(10000, 20000);
+          const delayMs = randomDelay(30000, 60000);
           console.log(`⏳ Menunggu ${delayMs / 1000} detik sebelum like berikutnya...`);
           await sleep(delayMs);
 
@@ -100,7 +100,7 @@ async function likeAllUnlikedComments(ig, mediaId) {
 
     if (feed.isMoreAvailable()) {
       console.log('⬇️ Mengambil komentar berikutnya (simulasi scroll)...');
-      await sleep(8000);
+      await sleep(10000);
     } else {
       break;
     }
