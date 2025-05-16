@@ -13,6 +13,12 @@ const INSTAGRAM_URL = 'https://www.instagram.com/reel/DJjR_wBymPj'; // change th
 const MAX_LIKES = 50;
 const BASE_IP = '180.249.200.81';
 const CUSTOM_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36';
+const PROXY_LIST = [
+  'http://133.18.234.13:80',
+  'http://138.199.233.152:80',
+  'http://101.71.143.237:8092'
+  'http://139.5.152.2:57413'
+];
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -34,6 +40,10 @@ function generateRandomIp(baseIp) {
 async function login(username, password) {
   const ig = new IgApiClient();
 
+  const selectedProxy = PROXY_LIST[Math.floor(Math.random() * PROXY_LIST.length)];
+  const newProxyUrl = await proxyChain.anonymizeProxy(selectedProxy);
+  ig.state.proxyUrl = newProxyUrl;
+
   // Generate device dan set user-agent custom
   ig.state.generateDevice(username);
 
@@ -51,8 +61,21 @@ async function login(username, password) {
   console.log(`🌐 Menggunakan IP random: ${randomIp}`);
 
   await ig.simulate.preLoginFlow();
-  const loggedInUser = await ig.account.login(username, password);
-  process.nextTick(async () => await ig.simulate.postLoginFlow());
+  try {
+    const loggedInUser = await ig.account.login(username, password);
+    process.nextTick(async () => await ig.simulate.postLoginFlow());
+  } catch (err) {
+    if (err.name === 'IgCheckpointError') {
+      console.log('🔐 Checkpoint terdeteksi. Verifikasi diperlukan (login via app resmi).');
+      process.exit(1);
+    } else if (err.name === 'IgLoginTwoFactorRequiredError') {
+      console.log('📲 Login 2FA diperlukan. Belum di-handle di skrip ini.');
+      process.exit(1);
+    } else {
+      console.error(`❌ Login gagal: ${err.message}`);
+      process.exit(1);
+    }
+  }
 
   return ig;
 }
